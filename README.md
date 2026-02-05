@@ -206,7 +206,7 @@ Text-to-SQL systems fail in predictable ways; this repo includes tests aimed at 
 
 ### Recommended safety constraints
 - **Read-only by default**: allow only `SELECT`.
-- **Block dangerous keywords**: `DROP`, `TRUNCATE`, `ALTER`, `GRANT`, `REVOKE`, etc.
+- **Block keywords**: `DROP`, `TRUNCATE`, `ALTER`, `GRANT`, `REVOKE`, etc.
 - **Enforce row limits**: (`FETCH FIRST N ROWS ONLY`).
 - **Enforce schema/table allowlist**: (optional).
 - **Parameterize values**: whenever possible.
