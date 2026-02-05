@@ -396,14 +396,3 @@ See `CONTRIBUTING.md`.
 MIT. See `LICENSE`.
 
 ---
-
-### If you want this to be *truly* “every nuance of the codebase”
-Paste (or upload) the contents of these files and I’ll rewrite the README with exact class names, function signatures, and “follow the code path” references:
-
-- `main.py`
-- `pipelines/**` (especially router + graph builder + each agent)
-- `utils/pipelines/**` (SQL cleaner, executor, viz)
-- `schemas.py`, `config.py`
-- `tests/**`
-
-Right now I can accurately reflect the **structure** and intended design from the repo tree, but I don’t want to invent specifics like method names or exact state fields without seeing the actual code.
