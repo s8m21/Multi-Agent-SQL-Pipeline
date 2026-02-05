@@ -1,6 +1,6 @@
 # StaffConnect: Multi-Agent SQL Analytics Pipeline (Open WebUI + LangGraph)
 
-A professional-grade, agentic blueprint for enterprise-level **Text-to-SQL** analytics, built on the **Open WebUI Pipelines** framework. This system uses **LangGraph** to orchestrate specialized LLM agents that generate safe SQL, query an Oracle database, run higher-level analytics (trends/anomalies), and return a **structured response** with optional **matplotlib visualizations**.
+A professional-grade, agentic blueprint for enterprise-level **Text-to-SQL** analytics, built on the **Open WebUI Pipelines** framework. This system uses **LangGraph** to orchestrate specialized LLM agents that generate safe SQL, query enterprise databases, run higher-level analytics (trends/anomalies), and return a **structured response** with optional **matplotlib visualizations**.
 
 > **Architecture Overview**
 - **Host Framework**: [Open WebUI Pipelines](https://github.com/open-webui/pipelines)
@@ -243,12 +243,8 @@ Configuration is centralized in `config.py` and Open WebUI Valves.
 OPENAI_API_KEY=...
 OPENAI_MODEL=...
 
-# Oracle
-ORACLE_HOST=...
-ORACLE_PORT=1521
-ORACLE_SERVICE=...
-ORACLE_USER=...
-ORACLE_PASSWORD=...
+# Database (SQLAlchemy URL)
+DATABASE_URL=your_database_url_here
 
 # Runtime
 LOG_LEVEL=INFO
@@ -262,7 +258,7 @@ SQL_READ_ONLY=true
 ## Local Setup
 ### Requirements
 - Python 3.11+
-- Oracle Instant Client (needed for `cx_Oracle`/Oracle driver)
+- Appropriate Database Drivers (e.g., Oracle Instant Client, Psycopg2 for Postgres, PyODBC for SQL Server)
 - An OpenAI API Key
 
 ### Install
@@ -325,9 +321,9 @@ Check `examples/` for runnable demo scripts or sample prompts.
 ---
 
 ## Troubleshooting
-- **Oracle client**: Ensure Instant Client is in your PATH.
+- **Database client**: Ensure the appropriate client library (e.g., Oracle Instant Client) is in your PATH.
 - **LLM parsing**: Use strict output prompts or JSON repair passes.
-- **SQL failures**: Feed ORA-error codes back to the repair loop.
+- **SQL failures**: Feed database-specific error codes back to the repair loop.
 
 ---
 
