@@ -27,32 +27,24 @@ from pipelines.staffconnect_chat_files.chains import create_staffconnect_chain
 
 class Pipeline:
     class Valves(BaseModel):
-        ORACLE_USER: str = ""
-        ORACLE_PASSWORD: str = ""
-        ORACLE_HOST: str = ""
-        ORACLE_PORT: str = ""
-        ORACLE_SERVICE: str = "" 
-        OPENAI_API_KEY: str = ""
+        DATABASE_URL: str = ""
         CHART_DIRECTORY_STAFFCONNECT: str = "" 
         OPENOBSERVE_HOST: str = ""
         OPENOBSERVE_USERNAME: str = ""
         OPENOBSERVE_PSWD: str = ""
+        OPENAI_API_KEY: str = ""
 
     def __init__(self):
         self.type = "manifold"
         self.name = "Staff Connect AI Agent"  
         load_dotenv(override=True)
         self.valves = self.Valves(**{
-            "ORACLE_USER": os.getenv("ORACLE_USER", "").strip('"\''), 
-            "ORACLE_PASSWORD": os.getenv("ORACLE_PASSWORD", "").strip('"\''), 
-            "ORACLE_HOST": os.getenv("ORACLE_HOST", "").strip('"\''), 
-            "ORACLE_PORT": os.getenv("ORACLE_PORT", "1521").strip('"\''), 
-            "ORACLE_SERVICE": os.getenv("ORACLE_SERVICE", "").strip('"\''), 
-            "OPENAI_API_KEY": os.getenv("OPENAI_API_KEY", "").strip('"\''), 
+            "DATABASE_URL": os.getenv("DATABASE_URL", "").strip('"\''), 
             "CHART_DIRECTORY_STAFFCONNECT": os.getenv("CHART_DIRECTORY_STAFFCONNECT", "").strip('"\''), 
             "OPENOBSERVE_HOST": os.getenv("OPENOBSERVE_HOST", "").strip('"\''), 
             "OPENOBSERVE_USERNAME": os.getenv("OPENOBSERVE_USERNAME", "").strip('"\''), 
             "OPENOBSERVE_PSWD": os.getenv("OPENOBSERVE_PSWD", "").strip('"\''), 
+            "OPENAI_API_KEY": os.getenv("OPENAI_API_KEY", "").strip('"\''),
         })
         self.pipelines = self.get_models()
         self._llm_map: Dict[str, Union[ChatOpenAI, None]] = {}
@@ -83,16 +75,16 @@ class Pipeline:
         if cd and not os.path.isdir(cd):
             os.makedirs(cd, exist_ok=True)
 
-        oracle_conn_str = (
-            "oracle+cx_oracle://{user}:{password}@{host}:{port}/?service_name={service}"
-        ).format( 
-            user=self.valves.ORACLE_USER,
-            password=self.valves.ORACLE_PASSWORD,
-            host=self.valves.ORACLE_HOST,
-            port=self.valves.ORACLE_PORT,
-            service=self.valves.ORACLE_SERVICE
-        )
-        self.staffconnect_engine = create_engine(oracle_conn_str) 
+        db_url = self.valves.DATABASE_URL
+        if not db_url:
+            # Fallback to env if valve is empty
+            db_url = os.getenv("DATABASE_URL", "")
+
+        if not db_url:
+            self.logger.error("DATABASE_URL not configured.")
+            return
+
+        self.staffconnect_engine = create_engine(db_url) 
         self.staffconnect_db = SQLDatabase(self.staffconnect_engine)
 
         llm_main = None

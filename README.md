@@ -6,7 +6,7 @@ A professional-grade, agentic blueprint for enterprise-level **Text-to-SQL** ana
 - **Host Framework**: [Open WebUI Pipelines](https://github.com/open-webui/pipelines)
 - **Orchestration**: LangGraph (Router → Experts → Aggregation)
 - **Pipeline Type**: Manifold (Exposes multiple model IDs like `gpt-4o-mini`, `o3-mini`)
-- **Database**: Oracle (via SQLAlchemy/cx_Oracle)
+- **Database**: Agnostic (Oracle, PostgreSQL, SQL Server via SQLAlchemy)
 
 > **Who this is for**
 - AI Engineers building **agentic analytics** over enterprise databases
@@ -122,10 +122,9 @@ If you’re new to the codebase, read in this order:
 
 ### Valves (Configuration)
 Configuration is handled via Open WebUI **Valves**. You can set these directly in the WebUI settings:
-- `ORACLE_USER` / `ORACLE_PASSWORD`: DB Credentials.
-- `ORACLE_SERVICE` / `ORACLE_HOST`: Oracle connection details.
+- `DATABASE_URL`: Generic SQLAlchemy connection string.
 - `OPENAI_API_KEY`: LLM access.
-- `CHART_DIRECTORY`: Path where generated analytic plots are stored.
+- `CHART_DIRECTORY_STAFFCONNECT`: Path where generated analytic plots are stored.
 
 ### Gateway Server
 The `main.py` file at the root acts as a standalone FastAPI server that is **OpenAI-API compatible**. You can connect Open WebUI to this gateway to host your custom pipelines.
@@ -277,6 +276,11 @@ pip install -r requirements.txt
 cp env.example .env
 # edit .env with your values
 ```
+
+### Connection String Examples
+- **Oracle**: `oracle+cx_oracle://user:password@host:port/?service_name=service`
+- **PostgreSQL**: `postgresql://user:password@host:port/dbname`
+- **SQL Server**: `mssql+pyodbc://user:password@host:port/dbname?driver=ODBC+Driver+17+for+SQL+Server`
 
 ---
 
