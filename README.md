@@ -394,5 +394,3 @@ See `CONTRIBUTING.md`.
 
 ## License
 MIT. See `LICENSE`.
-
----
