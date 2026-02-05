@@ -1,0 +1,99 @@
+[tool.poetry]
+name = "pipelines.staffconnect_chat"
+version = "0.1.0"
+description = "Manifold pipeline for staffconnect SQL chatbot using OpenAI and LangChain"
+authors = ["Spandan Maaheshwari <your.email@example.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "pipelines" }]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+
+# Core web framework
+fastapi = "0.111.0"
+uvicorn = { extras = ["standard"], version = "0.22.0" }
+
+# Data modeling & parsing
+pydantic = "2.7.4"
+python-multipart = "0.0.9"
+
+# Websockets / async
+python-socketio = "*"
+aiohttp = "3.9.5"
+httpx = "*"
+
+# Authentication
+passlib = { version = "1.7.4", extras = ["bcrypt"] }
+pyjwt = { version = "*", extras = ["crypto"] }
+
+# Observability
+werkzeug = "*"
+python-dotenv = "*"
+
+# SQL + DB Drivers
+sqlalchemy = "*"
+pyodbc = "*"
+cx_Oracle = "*" 
+sqlparse = "*"
+
+# AI / LLMs
+openai = "*"
+anthropic = "*"
+google-ai-generativelanguage = "0.6.18"
+vertexai = "*"
+langchain = "0.3.26"
+langchain-core = "0.3.68"
+langchain-openai = "*"
+langchain-google-genai = "2.1.6"
+langchain-community = "*"
+langgraph = "0.5.1"
+langgraph-prebuilt = "*"
+
+# ML / NLP
+torch = "*"
+numpy = "*"
+pandas = "*"
+xgboost = "*"
+scikit-learn = "*"
+tiktoken = "*"
+sentence-transformers = "*"
+transformers = "*"
+tokenizers = "*"
+nltk = "*"
+
+# Visualization
+matplotlib = "*"
+seaborn = "*"
+Pillow = "*"
+opencv-python = "*"
+
+# Web scraping
+selenium = "*"
+playwright = "*"
+beautifulsoup4 = "*"
+
+# RAG + DB
+llama-index = "*"
+llama-index-llms-ollama = "*"
+pymongo = "*"
+peewee = "*"
+sqlmodel = "*"
+boto3 = "*"
+redis = "*"
+chromadb = "*"
+psycopg2-binary = "*"
+
+# Observability/monitoring
+langfuse = "*"
+ddtrace = "*"
+opik = "*"
+langchain-experimental = "^0.3.4"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.30.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
