@@ -301,6 +301,31 @@ pytest
 
 ---
 
+## Production Deployment
+To deploy this pipeline in a secure enterprise environment, move away from the local `docker-compose.yaml` and employ a managed orchestrator.
+
+### 1. Container Orchestration
+The repository includes a ready-to-use Helm chart located in `charts/staffconnect-pipeline/`.
+*   Deploy using Helm to a Kubernetes cluster:
+    ```bash
+    helm install staffconnect-pipeline ./charts/staffconnect-pipeline \
+      --set secrets.databaseUrl="your_production_db" \
+      --set secrets.openAiApiKey="your_openai_key" \
+      --set secrets.langchainApiKey="your_langsmith_key"
+    ```
+*   The application creates a stateless FastAPI gateway exposed internally. Do not expose this service to the public internet; restrict ingress to your Open WebUI or existing backend API namespace.
+
+### 2. Database Security (Critical)
+*   **NEVER** connect the pipeline to a production write-database or a raw administrator account.
+*   The `DATABASE_URL` must point to an isolated Read Replca.
+*   Provision a dedicated database user with strict `SELECT` only permissions on the necessary views. Use Row-Level Security (RLS) to hide highly sensitive data (e.g., precise salaries, SSNs) from the schema available to the agent.
+
+### 3. Observability
+*   Traditional application logging (`LOG_LEVEL=INFO`) is insufficient for debugging AI reasoning errors or non-deterministic SQL hallucinations.
+*   You **must** enable LangSmith tracing in production by ensuring `LANGCHAIN_TRACING_V2=true` and providing a valid `LANGCHAIN_API_KEY`. This provides granular visibility into router decisions, prompts, and database latency.
+
+---
+
 ## Docker
 - **Build**: `docker build -t staffconnect-sql-pipeline .`
 - **Compose**: `docker compose up --build`

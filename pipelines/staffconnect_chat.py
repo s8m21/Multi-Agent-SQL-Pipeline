@@ -131,10 +131,10 @@ class Pipeline:
             route = result.get("route", "")
 
             # Embed chart if returned
+            encoded_image = response.get("chart_base64") if isinstance(response, dict) else None
             filename = response.get("chart_filename") if isinstance(response, dict) else None
-            encoded_image = None
 
-            if filename:
+            if not encoded_image and filename:
                 if not filename.lower().endswith(".png"):
                     filename += ".png"
                 base_name = os.path.basename(filename)
