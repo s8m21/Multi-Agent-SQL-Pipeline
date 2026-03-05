@@ -18,7 +18,7 @@ ENV ENV=prod \
 # Install GCC and build tools. 
 # These are kept in the final image to enable installing packages on the fly.
 RUN apt-get update && \
-    apt-get install -y gcc build-essential curl git && \
+    apt-get install -y gcc build-essential curl git unixodbc-dev libpq-dev libaio1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
