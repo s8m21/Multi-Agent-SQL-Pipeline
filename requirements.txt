@@ -11,7 +11,7 @@ langchain-community
 langchain-experimental
 langgraph
 sqlalchemy
-python-oracledb
+cx_Oracle
 pandas
 matplotlib
 tiktoken

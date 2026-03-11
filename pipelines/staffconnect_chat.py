@@ -5,7 +5,7 @@ date: 2025-10-20
 version: 1.0
 license: MIT
 description: A “manifold” pipeline for text-to-sql agent querying staffconnect (Oracle) database, supporting gpt-4o-mini and o3-mini models.
-requirements: aiofiles, langchain_openai, langchain_core, langchain_community, langchain_experimental, langgraph, langgraph-prebuilt, python-oracledb, sqlalchemy, sqlparse, werkzeug, tiktoken
+requirements: aiofiles, langchain_openai, langchain_core, langchain_community, langchain_experimental, langgraph, langgraph-prebuilt, cx_Oracle, sqlalchemy, sqlparse, werkzeug, tiktoken
 """
 
 import os
