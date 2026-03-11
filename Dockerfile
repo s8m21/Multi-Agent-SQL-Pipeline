@@ -29,16 +29,18 @@ COPY ./requirements.txt .
 COPY ./requirements-minimum.txt .
 RUN pip3 install uv
 RUN if [ "$MINIMUM_BUILD" != "true" ]; then \
-        if [ "$USE_CUDA_DOCKER" = "true" ]; then \
-            pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/$USE_CUDA_DOCKER_VER --no-cache-dir; \
-        else \
-            pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu --no-cache-dir; \    
-        fi \
+    if [ "$USE_CUDA_DOCKER" = "true" ]; then \
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/$USE_CUDA_DOCKER_VER --no-cache-dir; \
+    else \
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu --no-cache-dir; \    
+    fi \
     fi
 RUN if [ "$MINIMUM_BUILD" = "true" ]; then \
-        uv pip install --system -r requirements-minimum.txt --no-cache-dir; \
+    uv pip install --system setuptools wheel && \
+    uv pip install --system -r requirements-minimum.txt --no-build-isolation --no-cache-dir; \
     else \
-        uv pip install --system -r requirements.txt --no-cache-dir; \
+    uv pip install --system setuptools wheel && \
+    uv pip install --system -r requirements.txt --no-build-isolation --no-cache-dir; \
     fi
 
 
