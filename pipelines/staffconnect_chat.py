@@ -84,7 +84,21 @@ class Pipeline:
             self.logger.error("DATABASE_URL not configured.")
             return
 
-        self.staffconnect_engine = create_engine(db_url) 
+        connect_args = {}
+        timeout_env = os.getenv("DB_CONNECT_TIMEOUT", "")
+        if timeout_env and db_url.lower().startswith("postgresql"):
+            try:
+                connect_timeout = int(timeout_env)
+                if connect_timeout > 0:
+                    connect_args["connect_timeout"] = connect_timeout
+            except ValueError:
+                pass
+
+        self.staffconnect_engine = create_engine(
+            db_url,
+            pool_pre_ping=True,
+            connect_args=connect_args or None,
+        )
         self.staffconnect_db = SQLDatabase(self.staffconnect_engine)
 
         llm_main = None
